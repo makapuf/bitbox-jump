@@ -1,0 +1,25 @@
+# Object files
+*.o
+*.ko
+
+# Libraries
+*.lib
+*.a
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# emulation of current game
+*_emu
+# build subdirectories
+*/build
+# build dependencies
+*.d
