@@ -106,30 +106,30 @@ void handle_gamepad()
 		printf("bg->y = %d\n",bg->y);
 	#endif 
 }
-#ifdef COTE
+
 void update_score(void)
 {
 		// draws best score
-		int n=tilemap_fond_h*16-480+bg->y;
+		int n=bg->h-480+bg->y;
 		int col=7;
 		do {
-			tilemap_cote_ram[20*10+col--]=0x130+n%10; // last term is needed because tileset is urgh.	
+			tilemap_cote_ram[20*10+col--]=0x130+n%10+1; // last term is needed because tileset is urgh.	
 			n /= 10;
 		} while (n);
 
-		for (;col>2;col--) tilemap_cote_ram[20*10+col]=19*4*4;
+		for (;col>2;col--) tilemap_cote_ram[20*10+col]=19*4*4+1;
 
 		// coins
 		n=coins_collected;
 		col=5;
 		do {
-			tilemap_cote_ram[22*10+col--]=0x130+n%10; // last term is needed because tileset is urgh.	
+			tilemap_cote_ram[22*10+col--]=0x130+n%10+1; // last term is needed because tileset is urgh.	
 			n /= 10;
 		} while (n);
 
-		for (;col>2;col--) tilemap_cote_ram[20*10+col]=19*4*4;
+		for (;col>2;col--) tilemap_cote_ram[20*10+col]=19*4*4+1;
 }
-#endif
+
 
 inline enum TileType tile_type_from_id(uint16_t tile_id)
 {
@@ -208,10 +208,8 @@ static void update_positions()
 		}
 	}
 
-	#ifdef COTE
 	//  setup number display with coins / score
 	update_score();
-	#endif 
 
 	// touche bas
 	if (bonh->y+bonh->h-player_frame_base[bonh->fr%player_nb_frames] > lower_bound_y)
@@ -366,8 +364,8 @@ void level_init(int level_code)
 	// create pieces, bonh, cote, bg, progression line (--> replace with small sprite)
 
 	bg   = tilemap_new (jumper3_tset, 0, 0, jumper3_header, jumper3_tmap);
-	cote = tilemap_new (cote_tset, 0, 0, cote_header, cote_tmap);
-
+	cote = tilemap_new (cote_tset, 0, 0, cote_header, tilemap_cote_ram);
+	memcpy(tilemap_cote_ram,cote_tmap,sizeof(tilemap_cote_ram));
 	cote->x = bg->w;
 
 	bonh = sprite_new(bonh_spr, 300, 480-64,0);
@@ -375,10 +373,7 @@ void level_init(int level_code)
 
 	color = 0;
 
-	#ifdef COTE
     // copy tilemap cote in RAM
-	memcpy(tilemap_cote_ram,tilemap_cote,sizeof(tilemap_cote_ram));
-	#endif	
 
 	vy = -BUMP;
 

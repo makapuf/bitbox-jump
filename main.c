@@ -35,7 +35,7 @@ void (*do_frame) (void); // pointer to frame action/level / ...
 void game_init()
 {
 	blitter_init();
-	intro_init(); // start
+	intro_init(0,0); // start
 }
 
 void game_frame()
