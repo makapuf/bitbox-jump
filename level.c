@@ -12,6 +12,8 @@
 
 extern char bonh_spr[];
 extern char piece_spr[];
+extern char cursor_spr[];
+
 
 extern char * sample_dead, sample_jump, sample_high, sample_low, sample_color, sample_coin;
 
@@ -74,7 +76,7 @@ void intro_init(int,int);
 
 #define NB_COINS 16
 
-struct object *coins[NB_COINS], *bg, *cote, *bonh;
+struct object *coins[NB_COINS], *bg, *cote, *bonh, *cursor;
 
 int next_coin;
 int coins_collected;
@@ -275,6 +277,12 @@ static void update_positions()
 		}
 	}
 	prev_player_tile = pos_y/16;
+
+	// cursor 
+
+	int dymax = bg->h+480;
+	cursor->y = 480-(480*(bg->y+dymax)/(2*dymax)) - cursor->h; // 0-479 progression
+
 }
 
 
@@ -316,29 +324,15 @@ void level_frame()
 		blitter_remove(bonh);
 		blitter_remove(cote);
 		blitter_remove(bg);
+		blitter_remove(cursor);
+
 		// 
 		intro_init(score, coins_collected);
 	} 
 
+
 	handle_coins();
 }
-
-/*
-void level_line()
-{
-
-	// blit barre progression cote (en fn de line) -> cursor
-	int dymax = tilemap_fond_h*16+480;
-	int height = 480*(bg_y+dymax)/(2*dymax); // 0-479 de progression
-	draw_buffer[tilemap_fond_w*16]=(vga_line<=480-height)?RGB(0,0,128):RGB(0,255,255);
-	draw_buffer[tilemap_fond_w*16+1]=(vga_line<=480-height)?RGB(0,0,128):RGB(0,255,255);
-
-	// draw active coins 
-	for (int i=0;i<nb_coins;i++)
-		if (coins[i].x>=0)
-			blit_line(&coins[i]);
-}
-*/
 
 void fast_fwd(int level_code)
 {
@@ -370,6 +364,8 @@ void level_init(int level_code)
 
 	bonh = sprite_new(bonh_spr, 300, 480-64,0);
 	bonh->fr=0;
+
+	cursor = sprite_new(cursor_spr,bg->w-6,0,0);
 
 	color = 0;
 

@@ -7,8 +7,6 @@ GAME_BINARY_FILES = jumper3.tmap intro.tmap cote.tmap jumper3.tset intro.tset co
 USE_ENGINE=1
 USE_SAMPLER=1
 
-NO_SDCARD=1
-
 include $(BITBOX)/lib/bitbox.mk
 main.c: jumper3.tmap intro.tmap cote.tmap piece.spr bonh.spr cursor.spr
 
