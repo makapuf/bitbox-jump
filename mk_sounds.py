@@ -42,7 +42,8 @@ class SoundMgr :
 
         d = array.array(format,rawdata)
         # take only first channel. convert sample rate ? or force data ? loop points ?
-        data = [255*(d[k]-min)//(max-min) for k in range(0,len(d),wav.getnchannels())]
+        data = [255*(d[k]-min)//(max-min)-127 for k in range(0,len(d),wav.getnchannels()) ] # force to i8 ! 
+
         self.wavs[wavname]=wavfile, rate, data
 
 
@@ -92,22 +93,21 @@ class SoundMgr :
 
     def export(self) :
         for n,(fn,rate,w) in self.wavs.items() :
-            print 'const uint8_t sampledata_%s[%d] = {'%(n,len(w))
+            print 'const int8_t sample_%s_data [%d] = {'%(n,len(w))
             for i in range(0,len(w),80) :
-                print '        '+','.join('0x%02x'%x for x in w[i:i+80])+','
+                print '        '+','.join('%d'%x for x in w[i:i+80])+','
             print '    };'
             print
-            print 'const Sample sample_%s= {'%n
-            print '    .length=%d,'%len(w)
-            print '    .sample_rate=%d,'%rate
-            print '    .data=(uint8_t*)sampledata_%s'%n,
-            print '};'
+            print 'const int sample_%s_len= %d;'%(n,len(w))
+            print 'const int sample_%s_rate = %d;'%(n,rate)
+            print
             print
 
 
 s = SoundMgr()
-print '#include "audio.h"'
+print '#include "stdint.h"'
 for snd in glob('sounds/*.wav') : 
     s.add(snd)
 
+s.stats()
 s.export()

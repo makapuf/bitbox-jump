@@ -1,8 +1,7 @@
 NAME = jumper
 
-GAME_C_FILES = main.c intro.c level.c
-#level.c 
-GAME_BINARY_FILES = jumper3.tmap intro.tmap cote.tmap jumper3.tset intro.tset cote.tset piece.spr bonh.spr cursor.spr
+GAME_C_FILES = main.c intro.c level.c sounds.c
+GAME_BINARY_FILES = jumper3.tmap intro.tmap cote.tmap jumper3.tset intro.tset cote.tset piece.spr bonh.spr cursor.spr 
 
 USE_ENGINE=1
 USE_SAMPLER=1
@@ -24,8 +23,7 @@ bonh.spr : bonh/b_??.png
 cursor.spr : cursor.png
 	python $(BITBOX)/scripts/couples_encode.py $@ $^ 
 
-# + tard ... 
-sounds.c: sounds/*.wav
+sounds.c: sounds/*.wav mk_sounds.py 
 	python mk_sounds.py $< > $@
 
 clean:: 

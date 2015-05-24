@@ -1,9 +1,11 @@
 // level.c
-// TODO : sons, ramtile cote, musique, avance tt seul, pb de super saut imprte quand, core si rejoue, best score ?
+// TODO : musique, avance tt seul, pb de super saut imprte quand
 // si meurt, anim parabolique ?
 
 #include <bitbox.h>
+// extra libs
 #include "blitter.h"
+#include "sampler.h"
 
 #include <string.h>
 
@@ -14,8 +16,10 @@ extern char bonh_spr[];
 extern char piece_spr[];
 extern char cursor_spr[];
 
+#define SMP(x) extern const int8_t sample_##x##_data[]; extern const int sample_##x##_len;extern const int sample_##x##_rate;
+#define PLAY(x) play_sample(sample_##x##_data,sample_##x##_len, 256*sample_##x##_rate/BITBOX_SAMPLERATE,-1, 50,50 );
 
-extern char * sample_dead, sample_jump, sample_high, sample_low, sample_color, sample_coin;
+SMP(dead); SMP(jump); SMP(high); SMP(low); SMP(color); SMP(coin); 
 
 #define DEAD_FREEZE 60*2 // frozen frames after dead
 #define PIECE_NBFRAMES 4
@@ -29,7 +33,6 @@ unsigned int allowed_colors; // mask of allowed colors
 */
 uint16_t tilemap_cote_ram[300];
 
-void audio_start_sample(void *toto) {} // XXX
 
 const float DECELERATION = 0.3f; // pixel per frame^2 ? positive because y axis is down  
 const int HORIZONTAL_SPEED = 2; // pixel per frame^2 ? 
@@ -204,7 +207,7 @@ static void update_positions()
 			coins[i]->y<=bonh->y+bonh->h)
 		{
 			// son ting
-			audio_start_sample(&sample_coin);
+			PLAY(coin);
 			coins_collected ++;
 			coins[i]->y = 4096; // remove it
 		}
@@ -219,7 +222,7 @@ static void update_positions()
 		// lost
 		bonh->fr = 24; // dead
 		dead=DEAD_FREEZE;
-		audio_start_sample(&sample_dead);
+		PLAY(dead);
 	}
 
 	// non zero if modify speed (means we jumped this frame)
@@ -238,23 +241,23 @@ static void update_positions()
 			case tile_empty : 
 				break;
 			case tile_standard : 
-				audio_start_sample(&sample_jump);
+				PLAY(jump);
 				if (tilecolor==black || tilecolor == color) newv=-BUMP;
 				break;
 
 			case tile_superjump : 
-				audio_start_sample(&sample_high);
+				PLAY(high);
 				newv = -BUMP;
 				if (tilecolor==black || tilecolor == color) newv=-3*BUMP/2; // higher only if same color
 				break;
 
 			case tile_light: 
-				audio_start_sample(&sample_low);
+				PLAY(low);
 				if (tilecolor==black || tilecolor == color) newv=-6*BUMP/8;
 				break;
 			
 			case tile_new_color:
-				audio_start_sample(&sample_color);
+				PLAY(color);
 				allowed_colors |= (1<<tilecolor);
 				color = tilecolor;
 				newv=-BUMP;
@@ -358,7 +361,7 @@ void level_init(int level_code)
 	// create pieces, bonh, cote, bg, progression line (--> replace with small sprite)
 
 	bg   = tilemap_new (jumper3_tset, 0, 0, jumper3_header, jumper3_tmap);
-	cote = tilemap_new (cote_tset, 0, 0, cote_header, tilemap_cote_ram);
+	cote = tilemap_new (jumper3_tset, 0, 0, cote_header, tilemap_cote_ram); // reusing same tileset
 	memcpy(tilemap_cote_ram,cote_tmap,sizeof(tilemap_cote_ram));
 	cote->x = bg->w;
 

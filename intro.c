@@ -2,11 +2,18 @@
 #include <stdint.h>
 
 #include <blitter.h>
+#include "sampler.h"
 
 #include "intro.h"
-
 #define TMAP_INTRO_W 64
 #define TMAP_INTRO_H 30
+
+#define SMP(x) extern const int8_t sample_##x##_data[]; extern const int sample_##x##_len;extern const int sample_##x##_rate;
+#define PLAY(x) play_sample(sample_##x##_data,sample_##x##_len, 256*sample_##x##_rate/BITBOX_SAMPLERATE,-1, 50,50 );
+
+SMP(intro);
+
+extern const uint16_t jumper3_tset[]; // share tileset
 
 uint16_t intro_ramtilemap[TMAP_INTRO_H][TMAP_INTRO_W];
 int start_frame;
@@ -31,10 +38,13 @@ void intro_out();
 
 void intro_frame()
 {
-	if (bg->y<0) { // scroll down : ease w/ overshot !
+	if (bg->y<0) { // scroll down : ease w/ overshot ? 
 		speed += 1;
 		bg->y+= speed;	
-		if (bg->y>0) bg->y=0;	
+		if (bg->y>0) {
+			bg->y=0;	
+			PLAY(intro);
+		}
 	} else {
 		if ((vga_frame & 7) == 0) {
 			// enter code 
@@ -118,7 +128,7 @@ void intro_init(int score, int nbcoins)
 	if (nbcoins>best_coins) best_coins = nbcoins;
 
 	bg = tilemap_new(
-		intro_tset,640,480,
+		jumper3_tset,640,480, // same tileset
 		TMAP_HEADER(TMAP_INTRO_W,TMAP_INTRO_H,TSET_16,TMAP_U16), 
 		intro_ramtilemap
 		);

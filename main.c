@@ -1,27 +1,15 @@
 /* TODO : 
-2 points de contact
-sons : rebond (1/brique : normal, haut, bas, chgt couleur,), depart, miaow si atteint chat.
 
-pieces (ds le jeu) : flash array of x,y ; virer si trop bas, virer si mangées, créer si entre.
-logo KO : couleur, ..
-intro : plus joli
+	2 points de contact
+	RLE level / heatshrink continu
+	forcer le nyan (empecher de remonter plus)
 
-reset KO
-
-titre RLE plein (blits simples)
-
-niveau : debut tres simple
-forcer le nyan (empecher de remonter plus)
-
-pieges : mauvais trucs (pointilles, ...)
-forcer a utiliser les touches  pour passer
-
-sons : 2-mixer au moins
-
-
-TMX : exporter object files (faire simple)
-exporter sprites ? 
-exporter externs bins, yc ds ss reps !
+	sons, level %
+	fix clean
+	auto scroll
+	mechantes pieces (extra param ?)
+	
+	intro music ?
 
 */
 #include "bitbox.h"
