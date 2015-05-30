@@ -9,7 +9,7 @@ USE_SAMPLER=1
 include $(BITBOX)/lib/bitbox.mk
 main.c: jumper3.tmap intro_tmap.tmap cote.tmap piece.spr bonh.spr cursor.spr
 
-%.tset %.tmap %.h: %.tmx 
+%.tset %.tmap %.c %.h: %.tmx 
 	python $(BITBOX)/scripts/tmx.py $< > $*.h
 
 piece.spr : piece/p_?.png
@@ -28,3 +28,4 @@ sounds.c: sounds/*.wav mk_sounds.py
 
 clean:: 
 	rm -f *.tset *.tmap *.spr
+	rm -f jumper3.[ch] intro_tmap.[ch] cote.[ch]
