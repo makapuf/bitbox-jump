@@ -10,7 +10,7 @@ include $(BITBOX)/lib/bitbox.mk
 main.c: jumper3.tmap intro_tmap.tmap cote.tmap piece.spr bonh.spr cursor.spr
 
 %.tset %.tmap %.h: %.tmx 
-	python $(BITBOX)/scripts/tmx.py $? > $*.h
+	python $(BITBOX)/scripts/tmx.py $< > $*.h
 
 piece.spr : piece/p_?.png
 	#python ../scripts/sprite_encode2.py $@ $? -m p4
