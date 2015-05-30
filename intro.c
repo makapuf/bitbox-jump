@@ -4,7 +4,7 @@
 #include <blitter.h>
 #include "sampler.h"
 
-#include "intro.h"
+#include "intro_tmap.h"
 #define TMAP_INTRO_W 64
 #define TMAP_INTRO_H 30
 
@@ -145,7 +145,7 @@ void intro_init(int score, int nbcoins)
 	}
 
 	// intro screen
-	tmap_blit(bg,0,0,intro_header,intro_tmap);
+	tmap_blit(bg,0,0,intro_tmap_header,intro_tmap_tmap);
 
 	do_frame = intro_frame;
 }
