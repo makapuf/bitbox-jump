@@ -293,7 +293,7 @@ static void handle_coins()
 {
 
 	// add new ones
-	while (jumper3_pieces[next_coin][1]+bg->y>=0) {
+	while (jumper3_pieces[next_coin][1]+bg->y >=0 && next_coin<=jumper3_pieces_nb) {
 		for (int i=0;i<NB_COINS;i++)
 			if (coins[i]->y==4096) // a free one.
 			{
