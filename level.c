@@ -340,20 +340,22 @@ void level_frame()
 void fast_fwd(int level_code)
 {
 	// check level_codes 
+	int a;
 	switch (level_code+ ('A'<<24|'A'<<16|'A'<<8|'A')) 
 	{
-		case 'N'<<24|'Y'<<16|'A'<<8|'N' : bg->y = -46209;	break; // NYAN
-		case 'M'<<24|'E'<<16|'O'<<8|'W' : bg->y = -2824*16+480-64 ; break;
-		case 'C'<<24|'E'<<16|'C'<<8|'E' : bg->y = -2813*16+480-64 ; break;
-		case 'S'<<24|'T'<<16|'A'<<8|'R' : bg->y = -2694*16+480-64 ; break;
-		case 'C'<<24|'L'<<16|'U'<<8|'D' : bg->y = -2632*16+480-64 ; break;
-		case 'B'<<24|'L'<<16|'U'<<8|'E' : bg->y = -2455*16+480-64 ; break;
-		case 'G'<<24|'R'<<16|'E'<<8|'G' : bg->y = -2305*16+480-64 ; break;
+		case 'N'<<24|'Y'<<16|'A'<<8|'N' : a = 1957; break; 
+		case 'M'<<24|'E'<<16|'O'<<8|'W' : a = 1865; break;
+		case 'C'<<24|'E'<<16|'C'<<8|'E' : a = 1852; break;
+		case 'S'<<24|'T'<<16|'A'<<8|'R' : a = 1705; break;
+		case 'C'<<24|'L'<<16|'U'<<8|'D' : a = 1676; break;
+		case 'B'<<24|'L'<<16|'U'<<8|'E' : a = 1498; break;
+		case 'G'<<24|'R'<<16|'E'<<8|'G' : a = 1345; break;
 		
 		default : // at start !
-			bg->y=-bg->h+480;
+			a=2036;
 			break;
 	}
+	bg->y = -a*16+300;
 }
 
 void level_init(int level_code)
