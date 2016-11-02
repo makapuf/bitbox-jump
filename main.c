@@ -13,7 +13,7 @@
 
 */
 #include "bitbox.h"
-#include "blitter.h" 
+#include "lib/blitter/blitter.h" 
 
 void intro_init();
 void (*do_frame) (void); // pointer to frame action/level / ... 

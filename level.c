@@ -2,12 +2,12 @@
 // TODO : musique, avance tt seul, pb de super saut imprte quand
 // si meurt, anim parabolique ?
 
+#include <string.h>
+
 #include <bitbox.h>
 // extra libs
-#include "blitter.h"
-#include "sampler.h"
-
-#include <string.h>
+#include "lib/blitter/blitter.h"
+#include "lib/sampler/sampler.h"
 
 #include "jumper3.h"
 #include "cote.h"

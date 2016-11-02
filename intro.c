@@ -1,8 +1,8 @@
 #include <string.h>
 #include <stdint.h>
 
-#include <blitter.h>
-#include "sampler.h"
+#include "lib/blitter/blitter.h"
+#include "lib/sampler/sampler.h"
 
 #include "intro_tmap.h"
 #define TMAP_INTRO_W 64
