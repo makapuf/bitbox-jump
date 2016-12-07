@@ -28,7 +28,6 @@ void game_init()
 
 void game_frame()
 {
-	kbd_emulate_gamepad();
 	if (do_frame) 
 		do_frame();
 }
