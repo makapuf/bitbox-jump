@@ -79,7 +79,7 @@ void intro_init(int,int);
 
 #define NB_COINS 16
 
-struct object *coins[NB_COINS], *bg, *cote, *bonh, *cursor;
+static struct object *coins[NB_COINS], *bg, *cote, *bonh, *cursor;
 
 int next_coin;
 int coins_collected;

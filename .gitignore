@@ -14,3 +14,11 @@ sounds.c
 *.xcf
 old/
 sounds/other/
+
+*.elf
+*.bin
+bitbox_icon.c
+cote.c
+cote.h
+*_sdl
+intro_tmap.c

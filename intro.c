@@ -18,7 +18,7 @@ extern const uint16_t jumper3_tset[]; // share tileset
 uint16_t intro_ramtilemap[TMAP_INTRO_H][TMAP_INTRO_W];
 int start_frame;
 
-int cursor;
+static int cursor;
 int8_t code[4]; // 4-letters code, 0-31
 int speed;
 int best_score, best_coins;
@@ -31,7 +31,7 @@ extern uint32_t piece_spr[];
 extern  void level_init(int);
 
 #define NB_COINS 8
-struct object *coins[NB_COINS];
+static struct object *coins[NB_COINS];
 struct object *bg; // tilemap
 
 void intro_out();
