@@ -7,7 +7,7 @@ before_script:
   - git clone https://github.com/makapuf/bitbox.git
   - sudo apt-get -qq update
   - sudo apt-get -qq install libsdl1.2-dev python-imaging gcc-arm-none-eabi
-  - pip install pillow
+  - pip install pillow --user
 
   # check it worked
   - arm-none-eabi-gcc --version 
